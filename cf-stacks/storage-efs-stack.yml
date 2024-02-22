@@ -1,12 +1,12 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: poja-sary-std22049 - Storage EFS
+Description: poja-sarisary-std22049 - Storage EFS
 
 Parameters:
   Env:
     Type: String
   FilesystemName:
     Type: String
-    Default: poja-sary-std22049-efs
+    Default: poja-sarisary-std22049-efs
 
 Resources:
   Filesystem:
@@ -33,7 +33,7 @@ Resources:
   AccessPointArnSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Join [ '', [ /poja-sary-std22049/, !Ref Env, /efs/access-point/arn ] ]
+      Name: !Join [ '', [ /poja-sarisary-std22049/, !Ref Env, /efs/access-point/arn ] ]
       Type: String
       Value: !GetAtt AccessPoint.Arn
 
@@ -41,17 +41,17 @@ Resources:
     Type: AWS::EFS::MountTarget
     Properties:
       FileSystemId: !Ref Filesystem
-      SubnetId: !Sub '{{resolve:ssm:/poja-sary/subnet/private1/id}}'
+      SubnetId: !Sub '{{resolve:ssm:/poja/subnet/private1/id}}'
       SecurityGroups:
-        - !Sub '{{resolve:ssm:/poja-sary/sg/id}}'
+        - !Sub '{{resolve:ssm:/poja/sg/id}}'
 
   MountTarget2:
     Type: AWS::EFS::MountTarget
     Properties:
       FileSystemId: !Ref Filesystem
-      SubnetId: !Sub '{{resolve:ssm:/poja-sary/subnet/private2/id}}'
+      SubnetId: !Sub '{{resolve:ssm:/poja/subnet/private2/id}}'
       SecurityGroups:
-        - !Sub '{{resolve:ssm:/poja-sary/sg/id}}'
+        - !Sub '{{resolve:ssm:/poja/sg/id}}'
 
 Outputs:
   AccessPointArnSSM:

@@ -22,7 +22,7 @@ repositories {
 }
 
 java {
-    group = 'hei.school.sary'
+    group = 'hei.school.sarisary'
     sourceCompatibility = '17'
     targetCompatibility = '17'
 }

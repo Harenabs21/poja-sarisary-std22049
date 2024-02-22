@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: poja-sary-std22049 - Event
+Description: poja-sarisary-std22049 - Event
 
 Parameters:
   Env:
@@ -9,7 +9,7 @@ Resources:
   MailboxQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: !Join ['' , [!Ref Env , -poja-sary-std22049]]
+      QueueName: !Join ['' , [!Ref Env , -poja-sarisary-std22049]]
       VisibilityTimeout: 601
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt DeadLetterQueue.Arn
@@ -19,7 +19,7 @@ Resources:
   DeadLetterQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName:  !Join ['' , [!Ref Env , -poja-sary-std22049-dl]]
+      QueueName:  !Join ['' , [!Ref Env , -poja-sarisary-std22049-dl]]
       SqsManagedSseEnabled: false
 
   MailboxQueuePolicy:
@@ -69,65 +69,65 @@ Resources:
   MailboxQueueSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Join ['' , [/poja-sary-std22049/ , !Ref Env , /sqs/mailbox-queue-url]]
+      Name: !Join ['' , [/poja-sarisary-std22049/ , !Ref Env , /sqs/mailbox-queue-url]]
       Type: String
       Value: !Ref MailboxQueue
 
   MailboxQueueSSMArn:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Join ['' , [/poja-sary-std22049/ , !Ref Env , /sqs/mailbox-queue-arn]]
+      Name: !Join ['' , [/poja-sarisary-std22049/ , !Ref Env , /sqs/mailbox-queue-arn]]
       Type: String
       Value: !GetAtt MailboxQueue.Arn
 
   DeadLetterQueueSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Join ['' , [/poja-sary-std22049/ , !Ref Env , /sqs/dead-letter-queue-url]]
+      Name: !Join ['' , [/poja-sarisary-std22049/ , !Ref Env , /sqs/dead-letter-queue-url]]
       Type: String
       Value: !Ref DeadLetterQueue
 
   DeadLetterQueueArnSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Join [ '' , [ /poja-sary-std22049/ , !Ref Env , /sqs/dead-letter-queue-arn ] ]
+      Name: !Join [ '' , [ /poja-sarisary-std22049/ , !Ref Env , /sqs/dead-letter-queue-arn ] ]
       Type: String
       Value: !GetAtt DeadLetterQueue.Arn
 
   EventBridgeBus:
     Type: AWS::Events::EventBus
     Properties:
-      Name: !Join ['', [!Ref Env, -poja-sary-std22049]]
+      Name: !Join ['', [!Ref Env, -poja-sarisary-std22049]]
 
   EventBridgeArchive:
     Type: AWS::Events::Archive
     Properties:
-      ArchiveName: !Join ['', [!Ref Env, -poja-sary-std22049, -archive]]
+      ArchiveName: !Join ['', [!Ref Env, -poja-sarisary-std22049, -archive]]
       SourceArn: !GetAtt EventBridgeBus.Arn
 
   EventBridgeRule:
     Type: AWS::Events::Rule
     Properties:
-      Name: !Join ['', [!Ref Env, -poja-sary-std22049, -from-api-to-api]]
+      Name: !Join ['', [!Ref Env, -poja-sarisary-std22049, -from-api-to-api]]
       EventBusName: !GetAtt EventBridgeBus.Name
       EventPattern:
         source:
-          - hei.school.sary
+          - hei.school.sarisary
       Targets:
         - Arn: !GetAtt MailboxQueue.Arn
-          Id: !Join ['', [!Ref Env, -poja-sary-std22049, -api-mailbox]]
+          Id: !Join ['', [!Ref Env, -poja-sarisary-std22049, -api-mailbox]]
 
   EventBridgeBusNameSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Join ['',[/poja-sary-std22049/ , !Ref Env , /eventbridge/bus-name]]
+      Name: !Join ['',[/poja-sarisary-std22049/ , !Ref Env , /eventbridge/bus-name]]
       Type: String
       Value: !GetAtt EventBridgeBus.Name
 
   EventBridgeBusArnSSM:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: !Join [ '',[ /poja-sary-std22049/ , !Ref Env , /eventbridge/bus-arn ] ]
+      Name: !Join [ '',[ /poja-sarisary-std22049/ , !Ref Env , /eventbridge/bus-arn ] ]
       Type: String
       Value: !GetAtt EventBridgeBus.Arn
 
